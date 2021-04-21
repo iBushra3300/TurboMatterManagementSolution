@@ -1,0 +1,65 @@
+﻿@model PagedList.IPagedList<TurboMatterManagement.Areas.Admin.Models.Country>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+<table width="80%">
+    <tr>
+        <td>
+            <h2>Countries</h2>
+        </td>
+        <td valign="middle">
+            @using (Html.BeginForm())
+            {
+                <span>Name: </span>
+                @Html.TextBox("NameSearch", ViewBag.NameSearch as string, new { style = "width:140px" })
+                <input type="submit" value="Search" />
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Create New", "Create")
+        </td>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "List", new { SortColumn = "Name", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("Code", "List", new { SortColumn = "Code", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("Create Date", "List", new { SortColumn = "CreateDate", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are you sure you want to delete this country?');" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4" align="center" valign="top">@Html.PagedListPager(Model, page => Url.Action("List", new { page, sortColumn = ViewBag.SortColumn, nameSearch = ViewBag.NameSearch }))</td>
+    </tr>
+</table>
+

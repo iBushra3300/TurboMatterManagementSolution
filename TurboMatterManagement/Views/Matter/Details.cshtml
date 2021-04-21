@@ -1,0 +1,87 @@
+﻿@model TurboMatterManagement.Models.Matter
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table, th, td {
+        border: 0px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+</style>
+
+<h2>Matter Details: @Html.DisplayFor(model => model.Number)</h2>
+
+<table>
+    <tr>
+        <td class="tabx-active">Details</td>
+        <td class="tabx-non-active">Organizations</td>
+        <td class="tabx-non-active">Documents</td>
+    </tr>
+</table>
+<br />
+
+<table border="0" width="80%">
+    <tr>
+        <td>@Html.LabelFor(model => model.Name)</td>
+        <td></td>
+        <td>@Html.LabelFor(model => model.MatterStatus)</td>
+    </tr>
+    <tr>
+        <td>
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </td>
+        <td></td>
+        <td>
+            @Html.EditorFor(model => model.MatterStatus, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </td>
+    </tr>
+    <tr><td colspan="3">@Html.LabelFor(model => model.Description)</td></tr>
+    <tr>
+        <td colspan="3">
+            @Html.TextAreaFor(model => model.Description, 4, 40, htmlAttributes: new { @class = "form-control", style = "width: 85%; max-width: 85%;", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })<br />
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.MatterType)</td>
+        <td></td>
+        <td>@Html.LabelFor(model => model.Country)</td>
+    </tr>
+    <tr>
+        <td>
+            @Html.EditorFor(model => model.MatterType.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </td>
+        <td></td>
+        <td>
+            @Html.EditorFor(model => model.Country.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.OpenDate)</td>
+        <td></td>
+        <td>@Html.LabelFor(model => model.DispositionDate)</td>
+    </tr>
+    <tr>
+        <td>
+            @Html.EditorFor(model => model.OpenDate, new { htmlAttributes = new { @class = "form-control date-picker", onkeydown = "return false", onpaste = "return false", @readonly = "readonly" } })
+        </td>
+        <td></td>
+        <td>
+            @Html.EditorFor(model => model.DispositionDate, new { htmlAttributes = new { @class = "form-control date-picker", onkeydown = "return false", onpaste = "return false", @readonly = "readonly" } })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <input type="submit" value="Edit" name="btnEdit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "Matter", new { id = Model.Id })'" />
+            <input type="submit" value="Next" name="btnNext" class="btn btn-default" onclick="location.href='@Url.Action("MatterOganizationDetails", "Matter")'" />
+            <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("List", "Matter")'" />
+        </td>
+    </tr>
+</table>

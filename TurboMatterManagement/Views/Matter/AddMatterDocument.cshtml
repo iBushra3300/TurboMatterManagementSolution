@@ -1,0 +1,25 @@
+﻿@model TurboMatterManagement.Models.DocumentBasicInfo
+
+@using (Html.BeginForm("UploadMatterDocument", "Matter", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <table border="0">
+            <tr>
+                <td valign="middle">
+                    @Html.TextBoxFor(m => m.FileAttach, new { type = "file", placeholder = Html.DisplayNameFor(m => m.FileAttach), @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FileAttach, "", new { @class = "text-danger" })
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td>
+                    <input type="submit" value="Upload" class="btn btn-default" />
+                    <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("MatterDocuments", "Matter")'" />
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")

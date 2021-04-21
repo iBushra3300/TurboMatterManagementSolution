@@ -1,0 +1,71 @@
+﻿@model TurboMatterManagement.Models.MatterOrganization
+
+
+@using (Html.BeginForm("SearchOrganizations", "Matter", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    <table border="0" width="100%">
+        <tr>
+            <td>@Html.LabelFor(model => model.OrganizationSearchInfo.Name)</td>
+            <td>@Html.LabelFor(model => model.OrganizationSearchInfo.VendorNumber)</td>
+            <td>@Html.LabelFor(model => model.OrganizationSearchInfo.BillingRegion)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OrganizationSearchInfo.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OrganizationSearchInfo.VendorNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.OrganizationSearchInfo.BillingRegion, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+            </td>
+            <td valign="top">
+                <input type="submit" value="Search" class="btn btn-default" />
+                <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("MatterOrganizations", "Matter")'" />
+            </td>
+        </tr>
+        @if (Model.Organizations != null )
+        {
+            if (Model.Organizations.Any())
+            {
+                foreach (var item in Model.Organizations)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.VendorNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BillingRegion)</td>
+                        <td>@Html.ActionLink("Select this Organization", "SelectThisOrganization", new { id = item.Id })</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan = "4" > No records found with specified search criteria.</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")

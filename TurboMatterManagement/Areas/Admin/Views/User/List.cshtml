@@ -1,0 +1,48 @@
+﻿@model PagedList.IPagedList<TurboMatterManagement.Models.ApplicationUser>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+<h2>Users</h2>
+
+<table class="table">
+    <tr>
+        <th>@Html.ActionLink("First Name", "List", new { SortColumn = "FirstName", CurrentSort = ViewBag.CurrentSort })</th>
+        <th>@Html.ActionLink("Last Name", "List", new { SortColumn = "LastName", CurrentSort = ViewBag.CurrentSort })</th>
+        <th>@Html.ActionLink("Email", "List", new { SortColumn = "Email", CurrentSort = ViewBag.CurrentSort })</th>
+        <th></th>
+    </tr>
+    @using (Html.BeginForm("List", "User"))
+    {
+        <tr>
+            <td>@Html.TextBox("FirstNameSearch", ViewBag.FirstNameSearch as string, null, htmlAttributes: new { @class = "form-control", style = "width:140px" })</td>
+            <td>@Html.TextBox("LastNameSearch", ViewBag.LastNameSearch as string, htmlAttributes: new { @class = "form-control", style = "width:180px" })</td>
+            <td>@Html.TextBox("EmailSearch", ViewBag.EmailSearch as string, null, htmlAttributes: new { @class = "form-control", style = "width:140px" })</td>
+            <td><input type="submit" value="Search" class="btn btn-default" /></td>
+        </tr>
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4" align="center" valign="top">@Html.PagedListPager(Model, page => Url.Action("List", new { page, sortColumn = ViewBag.SortColumn, firstNameSearch = ViewBag.FirstNameSearch, lastNameSearch = ViewBag.LastNameSearch, emailSearch = ViewBag.EmailSearch }))</td>
+    </tr>
+</table>

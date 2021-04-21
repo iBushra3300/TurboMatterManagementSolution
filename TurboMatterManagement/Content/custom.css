@@ -1,0 +1,49 @@
+﻿.flex-container 
+{
+    margin-top:10px;
+    display: flex;
+}
+
+.flex-child 
+{
+    flex: 1;
+    border: 1px solid green;
+    padding:2px;
+}
+
+.flex-child:first-child 
+{
+        margin-right: 20px;
+}
+
+.mergedColumns 
+{
+    border: 1px solid blue;
+    width: 100%
+}
+
+.tabx-non-active {
+    width: 100px;
+    float: left;
+    margin: 0px;
+    margin-right: 2px;
+    padding: 10px 5px;
+    text-align: center;
+    background-color: cornflowerblue;
+    border-radius: 3px;
+    color: white;
+    width: 245px;
+}
+
+.tabx-active {
+    width: 100px;
+    float: left;
+    margin: 0px;
+    margin-right: 2px;
+    padding: 10px 5px;
+    text-align: center;
+    background-color: lavender !important;
+    border-radius: 3px;
+    color: black !important;
+    width: 245px;
+}

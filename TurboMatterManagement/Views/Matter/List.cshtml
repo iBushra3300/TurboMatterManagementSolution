@@ -1,0 +1,89 @@
+﻿@using PagedList.Mvc;
+@using System.Web.Mvc.Html;
+@using TurboMatterManagement.Models;
+@model PagedList.IPagedList<TurboMatterManagement.Models.Matter>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    IList<SelectListItem> selectItems = null;
+    var msSearch = ViewBag.MatterStatusSearch as string;
+    if (!string.IsNullOrEmpty(msSearch))
+    {
+        var selectedValue = (MatterStatus)int.Parse(msSearch);
+        selectItems = EnumHelper.GetSelectList(typeof(MatterStatus), selectedValue);
+    }
+    else
+    {
+        selectItems = EnumHelper.GetSelectList(typeof(MatterStatus));
+    }
+}
+<table border="0" width="100%">
+    <tr>
+        <td valign="bottom"><h2>Matters</h2></td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td valign="middle" align="right">@Html.ActionLink("Create New", "Create")</td>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Number", "List", new { SortColumn = "Number", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("Name", "List", new { SortColumn = "Name", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("MatterStatus", "List", new { SortColumn = "MatterStatus", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("OpenDate", "List", new { SortColumn = "OpenDate", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>Actions</th>
+    </tr>
+    @using (Html.BeginForm("List", "Matter"))
+    {
+        <tr>
+            <td>@Html.TextBox("NumberSearch", ViewBag.NumberSearch as string, null, htmlAttributes: new { @class = "form-control", style = "width:140px" })</td>
+            <td>@Html.TextBox("NameSearch", ViewBag.NameSearch as string, htmlAttributes: new { @class = "form-control", style = "width:180px" })</td>
+            <td>@Html.DropDownList("MatterStatusSearch", selectItems, "Please select", htmlAttributes: new { @class = "form-control", style = "width:140px" })</td>
+            <td>@Html.TextBox("OpenDateSearch", ViewBag.OpenDateSearch as string, null, htmlAttributes: new { @class = "form-control date-picker", style = "width:100px", onpaste = "return false" })</td>
+            <td><input type="submit" value="Search" class="btn btn-default"/></td>
+        </tr>
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatterStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpenDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("List", new { page, numberSearch = ViewBag.NumberSearch, nameSearch = ViewBag.NameSearch, matterStatusSearch = ViewBag.MatterStatusSearch, openDateSearch = ViewBag.OpenDateSearch }))
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/datetime")
+}

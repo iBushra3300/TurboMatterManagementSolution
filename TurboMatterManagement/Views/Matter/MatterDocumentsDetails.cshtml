@@ -1,0 +1,41 @@
+﻿@model TurboMatterManagement.Models.MatterDocument
+
+@{
+    ViewBag.Title = "Matter Documents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Matter Details: @Html.DisplayFor(model => model.Number)</h2>
+
+<table>
+    <tr>
+        <td class="tabx-non-active">Details</td>
+        <td class="tabx-non-active">Organizations</td>
+        <td class="tabx-active">Documents</td>
+    </tr>
+</table>
+<br />
+
+<table class="table">
+    <tr>
+        <th>Document Name</th>
+        <th>Content Type</th>
+        <th>Create Date</th>
+    </tr>
+    @if (Model.Documents != null && Model.Documents.Any())
+    {
+        foreach (var item in Model.Documents)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.FileName, "OpenMatterDocument", new { id = item.Id }, new { onclick = string.Format("window.open('/Matter/OpenMatterDocument/{0}', '_blank');return false", item.Id) })</td>
+                <td>@Html.DisplayFor(modelItem => item.ContentType)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreateDate)</td>
+            </tr>
+        }
+    }
+</table>
+
+<br />
+<input type="submit" value="Edit" name="btnEdit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "Matter", new { id = Model.Id })'" />
+<input type="submit" value="Previous" name="btnPrevious" class="btn btn-default" onclick="location.href='@Url.Action("MatterOganizationDetails", "Matter")'" />
+<input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("List", "Matter")'" />

@@ -1,0 +1,49 @@
+﻿@model PagedList.IPagedList<TurboMatterManagement.Areas.Admin.Models.Organization>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+<table border="0">
+    <tr>
+        <td valign="bottom"><h2>Organizations</h2></td>
+        <td width="40px">&nbsp;</td>
+        <td valign="middle">@Html.ActionLink("Create New", "Create")</td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>@Html.ActionLink("Name", "List", new { SortColumn = "Name", CurrentSort = ViewBag.CurrentSort })</th>
+        <th>@Html.ActionLink("VendorNumber", "List", new { SortColumn = "VendorNumber", CurrentSort = ViewBag.CurrentSort })</th>
+        <th>@Html.ActionLink("BillingRegion", "List", new { SortColumn = "BillingRegion", CurrentSort = ViewBag.CurrentSort })</th>
+        <th>Actions</th>
+    </tr>
+    @using (Html.BeginForm())
+    {
+        <tr>
+            <td>@Html.TextBox("NameSearch", null, null, new { style = "width:120px" })</td>
+            <td>@Html.TextBox("VendorNumberSearch", null, new { style = "width:120px" })</td>
+            <td>@Html.DropDownList("BillingRegionSearch", (SelectList)ViewBag.BillingRegionList)</td>
+            <td><input type="submit" value="Search" /></td>
+        </tr>
+    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.VendorNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.BillingRegion)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+@Html.PagedListPager(Model, page => Url.Action("List", new { page, sortColumn = ViewBag.SortColumn, nameSearch = ViewBag.NameSearch, VendorNumberSearch = ViewBag.VendorNumberSearch, BillingRegionSearch = ViewBag.BillingRegionSearch }))

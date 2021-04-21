@@ -1,0 +1,114 @@
+﻿@model TurboMatterManagement.Models.Matter
+
+@{
+    ViewBag.Title = "Create";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Matter</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("Number", "TT100")
+        <table border="0" width="80%">
+            <tr>
+                <td>@Html.LabelFor(model => model.Name)</td>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MatterStatus)</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.MatterStatus, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MatterStatus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr><td colspan="3">@Html.LabelFor(model => model.Description)</td></tr>
+            <tr>
+                <td colspan="3">
+                    @Html.TextAreaFor(model => model.Description, 4, 40, htmlAttributes: new { @class = "form-control", style = "width: 81%; max-width: 81%;" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })<br />
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.MatterType)</td>
+                <td></td>
+                <td>@Html.LabelFor(model => model.Country)</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.MatterTypeId, null, "Please select", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MatterTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.CountryId, null, "Please select", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.OpenDate)</td>
+                <td></td>
+                <td>@Html.LabelFor(model => model.DispositionDate)</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OpenDate, new { htmlAttributes = new { @class = "form-control date-picker", onkeydown = "return false", onpaste = "return false" } })
+                            @Html.ValidationMessageFor(model => model.OpenDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DispositionDate, new { htmlAttributes = new { @class = "form-control date-picker", onkeydown = "return false", onpaste = "return false" } })
+                            @Html.ValidationMessageFor(model => model.DispositionDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="Save" name="btnSave" class="btn btn-default" />
+                    <input type="submit" value="Save & Edit" name="btnSaveEdit" class="btn btn-default" />
+                    <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("List", "Matter")'" />
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/datetime")
+}

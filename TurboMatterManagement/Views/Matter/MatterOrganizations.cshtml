@@ -1,0 +1,56 @@
+﻿@model TurboMatterManagement.Models.MatterOrganization
+
+@{
+    ViewBag.Title = "Matter Organizations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Matter: @Html.DisplayFor(model => model.Number)</h2>
+
+<table>
+    <tr>
+        <td class="tabx-non-active">Details</td>
+        <td class="tabx-active">Organizations</td>
+        <td class="tabx-non-active">Documents</td>
+    </tr>
+</table>
+<br />
+
+@Html.ActionLink("Add", "AddMatterOrganization", "Matter")
+
+@if (Model.AddOrganization)
+{
+    Html.RenderPartial("AddMatterOrganization", Model);
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Organization Name</th>
+            <th>Vendor Number</th>
+            <th>Billing Region</th>
+            <th></th>
+        </tr>
+        @if (Model.Organizations != null && Model.Organizations.Any())
+        {
+            foreach (var item in Model.Organizations.Where(o => o.ForDelete == false))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.VendorNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillingRegion)</td>
+                    <td>@Html.ActionLink("Remove", "DeleteMatterOrganization", new { id = item.Id }, new { onclick = "return confirm('Are you sure you want to remove this organization?');" })</td>
+                </tr>
+            }
+        }
+    </table>
+}
+<br />
+@using (Html.BeginForm("Organizations", "Matter", FormMethod.Post))
+{
+    <input type="submit" value="Save" name="btnSave" class="btn btn-default" />
+    <input type="submit" value="Next" name="btnNext" class="btn btn-default" />
+    <input type="submit" value="Previous" name="btnPrevious" class="btn btn-default" />
+    <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("List", "Matter")'" />
+}
+

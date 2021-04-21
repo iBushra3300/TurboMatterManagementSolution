@@ -1,0 +1,103 @@
+﻿@model TurboMatterManagement.Areas.Admin.Models.OrganizationConactInfo
+
+@{
+    ViewBag.Title = "Contacts";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+<h2>Organization</h2>
+
+<table>
+    <tr>
+        <td class="tabx-non-active">Details</td>
+        <td class="tabx-active">Contacts</td>
+    </tr>
+</table>
+
+<div class="form-horizontal">
+    @Html.ActionLink("Create New", "CreateAddress")
+    <table width="80%">
+        <tr>
+            <td colspan="6" style="background-color:gainsboro; padding:3px">Addresses</td>
+        </tr>
+        <tr>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Address Type</th>
+            <th>Actions</th>
+        </tr>
+        @if (Model != null && Model.Addresses != null && Model.Addresses.Any())
+        {
+            foreach (var address in Model.Addresses.Where(a => a.ForDelete == false))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => address.Street)</td>
+                    <td>@Html.DisplayFor(modelItem => address.City)</td>
+                    <td>@Html.DisplayFor(modelItem => address.State.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => address.Zip)</td>
+                    <td>@Html.DisplayFor(modelItem => address.Type)</td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditAddress", new { id = address.Id }) |
+                        @Html.ActionLink("Delete", "DeleteAddress", new { id = address.Id }, new { onclick = "return confirm('Are you sure you want to delete this user?');" })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    @if (Model != null && Model.AddressOperationMode == "Insert")
+    {
+        Html.RenderPartial("AddAddress", Model.SelectedAddress, new ViewDataDictionary(ViewData));
+    }
+    else
+    if (Model != null && Model.AddressOperationMode == "Edit")
+    {
+        Html.RenderPartial("EditAddress", Model.SelectedAddress, new ViewDataDictionary(ViewData));
+    }
+
+    <br />
+    @Html.ActionLink("Create New", "CreatePhone")
+    <table width="80%">
+        <tr>
+            <td colspan="3" style="background-color:gainsboro; padding:3px">Phones</td>
+        </tr>
+        <tr>
+            <th>Number</th>
+            <th>Phone Type</th>
+            <th>Actions</th>
+        </tr>
+        @if (Model != null && Model.Phones != null && Model.Phones.Any())
+        {
+            foreach (var phone in Model.Phones.Where(p => p.ForDelete == false))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => phone.Number)</td>
+                    <td>@Html.DisplayFor(modelItem => phone.Type)</td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditPhone", new { id = phone.Id }) |
+                        @Html.ActionLink("Delete", "DeletePhone", new { id = phone.Id }, new { onclick = "return confirm('Are you sure you want to delete this phone?');" })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    @if (Model != null && Model.PhoneOperationMode == "Insert")
+    {
+        Html.RenderPartial("AddPhone", Model.SelectedPhone, new ViewDataDictionary(ViewData));
+    }
+    else
+    if (Model != null && Model.PhoneOperationMode == "Edit")
+    {
+        Html.RenderPartial("EditPhone", Model.SelectedPhone, new ViewDataDictionary(ViewData));
+    }
+
+    <br />
+    @using (Html.BeginForm("Contacts", "Organization", FormMethod.Post))
+    {
+        <input type="submit" value="Previous" name="btnPrevious" class="btn btn-default"/>
+        <input type="submit" value="Save" name="btnSave" class="btn btn-default"/>
+        <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("List", "Organization")'" />
+    }
+</div>

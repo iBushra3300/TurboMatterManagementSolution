@@ -1,0 +1,112 @@
+﻿@model TurboMatterManagement.Areas.Admin.Models.Organization
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+<h2>Organization Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingRegion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingRegion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+    </dl>
+</div>
+
+<table width="80%">
+    <tr>
+        <td colspan="5" style="background-color:gainsboro; padding:3px">Addresses</td>
+    </tr>
+    <tr>
+        <th>Street</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>Address Type</th>
+    </tr>
+    @if (Model != null && Model.Addresses != null && Model.Addresses.Any())
+    {
+        foreach (var address in Model.Addresses)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => address.Street)</td>
+                <td>@Html.DisplayFor(modelItem => address.City)</td>
+                <td>@Html.DisplayFor(modelItem => address.State.Name)</td>
+                <td>@Html.DisplayFor(modelItem => address.Zip)</td>
+                <td>@Html.DisplayFor(modelItem => address.Type)</td>
+            </tr>
+        }
+    }
+</table>
+<br />
+<table width="80%">
+    <tr>
+        <td colspan="2" style="background-color:gainsboro; padding:3px">Phones</td>
+    </tr>
+    <tr>
+        <th>Number</th>
+        <th>Phone Type</th>
+    </tr>
+    @if (Model != null && Model.Phones != null && Model.Phones.Any())
+    {
+        foreach (var phone in Model.Phones)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => phone.Number)</td>
+                <td>@Html.DisplayFor(modelItem => phone.Type)</td>
+            </tr>
+        }
+    }
+</table>
+
+<br />
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

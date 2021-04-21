@@ -1,0 +1,45 @@
+﻿@model TurboMatterManagement.Models.MatterOrganization
+
+@{
+    ViewBag.Title = "Matter Organizations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Matter Details: @Html.DisplayFor(model => model.Number)</h2>
+
+<table>
+    <tr>
+        <td class="tabx-non-active">Details</td>
+        <td class="tabx-active">Organizations</td>
+        <td class="tabx-non-active">Documents</td>
+    </tr>
+</table>
+<br />
+
+<table class="table">
+    <tr>
+        <th>Organization Name</th>
+        <th>Vendor Number</th>
+        <th>Billing Region</th>
+    </tr>
+    @if (Model.Organizations != null && Model.Organizations.Any())
+    {
+        foreach (var item in Model.Organizations.Where(o => o.ForDelete == false))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.VendorNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.BillingRegion)</td>
+            </tr>
+        }
+    }
+    <tr>
+        <td colspan="3">
+            <br />
+            <input type="submit" value="Edit" name="btnEdit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "Matter", new { id = Model.Id })'" />
+            <input type="submit" value="Previous" name="btnPrevious" class="btn btn-default" onclick="location.href='@Url.Action("Details", "Matter", new { id = Model.Id })'" />
+            <input type="submit" value="Next" name="btnNext" class="btn btn-default" onclick="location.href='@Url.Action("MatterDocumentsDetails", "Matter")'" />
+            <input type="button" value="Cancel" name="btnCancel" class="btn btn-default" onclick="location.href='@Url.Action("List", "Matter")'" />
+        </td>
+    </tr>
+</table>

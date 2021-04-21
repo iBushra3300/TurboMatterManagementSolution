@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+<hr />
+<table style="padding:10px;">
+    <tr>
+        <td>@Html.ActionLink("Users", "List", "User")</td>
+        <td width="40px">&nbsp;</td>
+        <td>@Html.ActionLink("Countries", "List", "Country")</td>
+        <td width="40px">&nbsp;</td>
+        <td>@Html.ActionLink("Organizations", "List", "Organization")</td>
+        <td width="40px">&nbsp;</td>
+        <td>@Html.ActionLink("Matter Types", "Index", "MatterType")</td>
+    </tr>
+</table>
